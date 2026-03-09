@@ -1,0 +1,97 @@
+# nba-odds
+
+Scrapes ESPN's NBA odds page, fetches ESPN's matchup predictor for each game, calculates Expected Value (EV) for moneyline bets, and tracks results over time.
+
+## What it does
+
+Each run:
+1. Fetches today's NBA games and DraftKings moneylines from [espn.com/nba/odds](https://www.espn.com/nba/odds)
+2. Fetches ESPN's matchup predictor win probability for each game
+3. Calculates EV for each team's moneyline bet using the predictor probability
+4. Flags bets with EV between **8.1 and 19.9** as **PICK**
+5. Saves all games to `output/picks.txt`, grouped by day
+6. Checks the past 14 days of PICKs against ESPN's results API and updates the won/lost counter
+
+## EV Formula
+
+```
+EV = (win_probability × profit_on_$100_bet) − (lose_probability × $100)
+```
+
+Moneyline to profit conversion:
+- Positive ML (e.g. +390): profit = $390
+- Negative ML (e.g. -220): profit = $10,000 / 220 = $45.45
+
+## Output
+
+### Terminal
+
+```
+--------------------------------------------------------------------
+Team                               ML      Pred%             EV
+--------------------------------------------------------------------
+  Monday 3/9/2026 7:00pm
+Philadelphia 76ers             +390      24.2%      +18.6 PICK
+Cleveland Cavaliers            -480      75.8%          -6.7
+--------------------------------------------------------------------
+```
+
+### output/picks.txt
+
+```
+Total PICKs: 7 | Won: 3 | Lost: 2
+
+=== Monday 3/9/2026 ===
+[/nba/game/_/gameId/401810786/76ers-cavaliers]
+Philadelphia 76ers         +390      24.2%      +18.6 PICK
+Cleveland Cavaliers        -480      75.8%          -6.7
+```
+
+- Re-running the app will not duplicate games already in the file
+- The won/lost counter updates every run based on completed game results
+- Only games within the past 14 days are checked for results
+
+## Build
+
+```bash
+cargo build --release
+```
+
+Binary is at `target/release/nba-odds.exe`.
+
+## Run
+
+```bash
+# Default: today's games from espn.com/nba/odds
+cargo run
+
+# Or run the release binary directly
+./target/release/nba-odds
+```
+
+## Run on Windows startup
+
+1. Build the release binary (`cargo build --release`)
+2. Open **Task Scheduler** → **Create Basic Task**
+3. Trigger: **When I log on**
+4. Action: **Start a program**
+   - Program: `D:\repos\Personal\espn-odds\target\release\nba-odds.exe`
+   - Start in: `D:\repos\Personal\espn-odds`
+
+To run silently (no terminal window), create `run.vbs`:
+
+```vbscript
+Set WshShell = CreateObject("WScript.Shell")
+WshShell.Run Chr(34) & "D:\repos\Personal\espn-odds\target\release\nba-odds.exe" & Chr(34), 0, False
+```
+
+Then point Task Scheduler at `wscript.exe` with argument `D:\repos\Personal\espn-odds\run.vbs`.
+
+## Dependencies
+
+| Crate | Purpose |
+|---|---|
+| `reqwest` | HTTP requests (ESPN odds page + game pages + results API) |
+| `scraper` | HTML parsing |
+| `clap` | CLI argument parsing |
+| `serde_json` | Parsing ESPN's game results API response |
