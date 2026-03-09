@@ -1,0 +1,15 @@
+D:\repos\Personal\espn-odds\target\debug\deps\markup5ever-a494c20001e78aba.d: C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\lib.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\data\mod.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\interface\mod.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\interface\tree_builder.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\serialize.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\util\buffer_queue.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\util\smallcharset.rs D:\repos\Personal\espn-odds\target\debug\build\markup5ever-a1f8c269e874e407\out/generated.rs D:\repos\Personal\espn-odds\target\debug\build\markup5ever-a1f8c269e874e407\out/named_entities.rs
+
+D:\repos\Personal\espn-odds\target\debug\deps\libmarkup5ever-a494c20001e78aba.rmeta: C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\lib.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\data\mod.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\interface\mod.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\interface\tree_builder.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\serialize.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\util\buffer_queue.rs C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\util\smallcharset.rs D:\repos\Personal\espn-odds\target\debug\build\markup5ever-a1f8c269e874e407\out/generated.rs D:\repos\Personal\espn-odds\target\debug\build\markup5ever-a1f8c269e874e407\out/named_entities.rs
+
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\lib.rs:
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\data\mod.rs:
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\interface\mod.rs:
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\interface\tree_builder.rs:
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\serialize.rs:
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\util\buffer_queue.rs:
+C:\Users\Nick\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\markup5ever-0.12.1\util\smallcharset.rs:
+D:\repos\Personal\espn-odds\target\debug\build\markup5ever-a1f8c269e874e407\out/generated.rs:
+D:\repos\Personal\espn-odds\target\debug\build\markup5ever-a1f8c269e874e407\out/named_entities.rs:
+
+# env-dep:OUT_DIR=D:\\repos\\Personal\\espn-odds\\target\\debug\\build\\markup5ever-a1f8c269e874e407\\out
