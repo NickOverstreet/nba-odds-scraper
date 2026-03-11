@@ -8,9 +8,9 @@ Each run:
 1. Fetches today's NBA games and DraftKings moneylines from [espn.com/nba/odds](https://www.espn.com/nba/odds)
 2. Fetches ESPN's matchup predictor win probability for each game
 3. Calculates EV for each team's moneyline bet using the predictor probability
-4. Flags bets with EV between **8.1 and 19.9** as **PICK**
+4. Flags **away team** bets with EV between **8.1 and 19.9** as **PICK** (away teams only)
 5. Saves all games to `output/picks.txt`, grouped by day
-6. Checks the past 14 days of PICKs against ESPN's results API and updates the won/lost counter
+6. Checks the past 14 days of PICKs against ESPN's results API and updates the won/lost/profit counter
 
 ## EV Formula
 
@@ -39,7 +39,7 @@ Cleveland Cavaliers            -480      75.8%          -6.7
 ### output/picks.txt
 
 ```
-Total PICKs: 7 | Won: 3 | Lost: 2
+Total PICKs: 7 | Won: 3 | Lost: 2 | Profit: +$840.00
 
 === Monday 3/9/2026 ===
 [/nba/game/_/gameId/401810786/76ers-cavaliers]
@@ -47,9 +47,11 @@ Philadelphia 76ers         +390      24.2%      +18.6 PICK
 Cleveland Cavaliers        -480      75.8%          -6.7
 ```
 
+- Only the **away team** can be flagged as a PICK — home team EV is shown but never picked
 - Re-running the app will not duplicate games already in the file
-- The won/lost counter updates every run based on completed game results
+- The won/lost/profit counter updates every run based on completed game results
 - Only games within the past 14 days are checked for results
+- Profit assumes $100 flat bets on each PICK
 
 ## Build
 

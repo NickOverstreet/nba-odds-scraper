@@ -334,14 +334,15 @@ fn print_games(games: &[Game]) {
         let away_ev = game.away_predictor.and_then(|p| calc_ev(p, &game.away.moneyline));
         let home_ev = game.home_predictor.and_then(|p| calc_ev(p, &game.home.moneyline));
 
-        let profitable = |ev: f64| ev >= 8.1 && ev <= 19.9;
-
-        let fmt_ev = |ev: Option<f64>| -> String {
+        let fmt_ev_away = |ev: Option<f64>| -> String {
             match ev {
                 None => "-".into(),
-                Some(v) if profitable(v) => format!("{:+.1} PICK", v),
+                Some(v) if v >= 8.1 && v <= 19.9 => format!("{:+.1} PICK", v),
                 Some(v) => format!("{:+.1}", v),
             }
+        };
+        let fmt_ev_home = |ev: Option<f64>| -> String {
+            match ev { None => "-".into(), Some(v) => format!("{:+.1}", v) }
         };
 
         let away_pred = game.away_predictor.map(|p| format!("{:.1}%", p)).unwrap_or_else(|| "-".into());
@@ -351,12 +352,12 @@ fn print_games(games: &[Game]) {
         println!(
             "{:<26} {:>10} {:>10} {:>14}",
             truncate(&game.away.name, 26),
-            game.away.moneyline, away_pred, fmt_ev(away_ev),
+            game.away.moneyline, away_pred, fmt_ev_away(away_ev),
         );
         println!(
             "{:<26} {:>10} {:>10} {:>14}",
             truncate(&game.home.name, 26),
-            game.home.moneyline, home_pred, fmt_ev(home_ev),
+            game.home.moneyline, home_pred, fmt_ev_home(home_ev),
         );
         println!("{:-<width$}", "", width = width);
     }
@@ -381,12 +382,15 @@ fn game_to_record(game: &Game) -> Record {
     let away_ev = game.away_predictor.and_then(|p| calc_ev(p, &game.away.moneyline));
     let home_ev = game.home_predictor.and_then(|p| calc_ev(p, &game.home.moneyline));
 
-    let fmt_ev = |ev: Option<f64>| -> String {
+    let fmt_ev_away = |ev: Option<f64>| -> String {
         match ev {
             None => "-".into(),
             Some(v) if v >= 8.1 && v <= 19.9 => format!("{:+.1} PICK", v),
             Some(v) => format!("{:+.1}", v),
         }
+    };
+    let fmt_ev_home = |ev: Option<f64>| -> String {
+        match ev { None => "-".into(), Some(v) => format!("{:+.1}", v) }
     };
 
     let away_pred = game.away_predictor.map(|p| format!("{:.1}%", p)).unwrap_or_else(|| "-".into());
@@ -394,8 +398,8 @@ fn game_to_record(game: &Game) -> Record {
 
     let block = format!(
         "{:<26} {:>10} {:>10} {:>14}\n{:<26} {:>10} {:>10} {:>14}",
-        truncate(&game.away.name, 26), game.away.moneyline, away_pred, fmt_ev(away_ev),
-        truncate(&game.home.name, 26), game.home.moneyline, home_pred, fmt_ev(home_ev),
+        truncate(&game.away.name, 26), game.away.moneyline, away_pred, fmt_ev_away(away_ev),
+        truncate(&game.home.name, 26), game.home.moneyline, home_pred, fmt_ev_home(home_ev),
     );
 
     let picks = block.lines().filter(|l| l.contains("PICK")).count();
@@ -525,6 +529,18 @@ fn pick_team_from_block(block: &str) -> Option<String> {
         .map(|l| l[..26.min(l.len())].trim().to_string())
 }
 
+/// Extract the moneyline from the PICK line (e.g. "+390" or "-260").
+fn pick_ml_from_block(block: &str) -> Option<String> {
+    block.lines()
+        .find(|l| l.contains("PICK"))
+        .and_then(|l| {
+            l.split_whitespace()
+                .find(|t| !t.contains('%') && !t.contains('.') &&
+                    (t.starts_with('+') || t.starts_with('-')))
+                .map(str::to_string)
+        })
+}
+
 fn save_results(output_dir: &str, games: &[Game]) {
     if let Err(e) = fs::create_dir_all(output_dir) {
         eprintln!("Failed to create output dir: {}", e);
@@ -566,6 +582,7 @@ fn save_results(output_dir: &str, games: &[Game]) {
     // Count won/lost bets for all PICKs within the past 14 days
     let mut won = 0usize;
     let mut lost = 0usize;
+    let mut profit = 0.0f64;
     let bets_to_check: Vec<_> = all.iter()
         .filter(|r| r.picks > 0)
         .filter(|r| parse_section_date(&r.day)
@@ -579,15 +596,23 @@ fn save_results(output_dir: &str, games: &[Game]) {
             let Some(game_id) = extract_game_id(&record.url) else { continue };
             let Some(winner) = game_winner_name(game_id) else { continue };
             let Some(pick_team) = pick_team_from_block(&record.block) else { continue };
+            let Some(ml) = pick_ml_from_block(&record.block) else { continue };
             if winner.starts_with(&pick_team) || pick_team.starts_with(&winner) {
                 won += 1;
+                if let Some(win_amt) = ml_win_amount(&ml) { profit += win_amt; }
             } else {
                 lost += 1;
+                profit -= 100.0;
             }
         }
     }
 
-    let mut out = format!("Total PICKs: {} | Won: {} | Lost: {}\n", total_picks, won, lost);
+    let profit_str = if profit >= 0.0 {
+        format!("+${:.2}", profit)
+    } else {
+        format!("-${:.2}", profit.abs())
+    };
+    let mut out = format!("Total PICKs: {} | Won: {} | Lost: {} | Profit: {}\n", total_picks, won, lost, profit_str);
     for day in &days {
         out.push_str(&format!("\n=== {} ===\n", day));
         for &i in &by_day[day] {
