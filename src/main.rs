@@ -572,10 +572,14 @@ fn save_results(output_dir: &str, games: &[Game]) {
         by_day.entry(r.day.clone()).or_default().push(i);
     }
 
-    // Sort days by day-of-week order
-    let dow = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    // Sort days newest-first by calendar date
     let mut days: Vec<String> = by_day.keys().cloned().collect();
-    days.sort_by_key(|d| dow.iter().position(|&x| x == d.as_str()).unwrap_or(99));
+    days.sort_by(|a, b| {
+        let jdn = |s: &str| parse_section_date(s)
+            .map(|(mo, dy, yr)| ymd_to_jdn(yr, mo, dy))
+            .unwrap_or(0);
+        jdn(b).cmp(&jdn(a))
+    });
 
     let total_picks: usize = all.iter().map(|r| r.picks).sum();
 

@@ -1,11 +1,5 @@
 Total PICKs: 2 | Won: 0 | Lost: 1 | Profit: -$100.00
 
-=== Wednesday 3/11/2026 ===
-[/nba/game/_/gameId/401810802/cavaliers-magic]
-Cleveland Cavaliers              -148      61.7%           +3.4
-Orlando Magic                    +124      38.3%          -14.2
-
-
 === Wednesday 3/12/2026 ===
 [/nba/game/_/gameId/401810803/raptors-pelicans]
 Toronto Raptors                  -115      49.1%           -8.2
@@ -26,6 +20,12 @@ Sacramento Kings                 +500      20.1%          +20.6
 [/nba/game/_/gameId/401810807/timberwolves-clippers]
 Minnesota Timberwolves           +102      40.7%          -17.8
 LA Clippers                      -122      59.3%           +7.9
+
+
+=== Wednesday 3/11/2026 ===
+[/nba/game/_/gameId/401810802/cavaliers-magic]
+Cleveland Cavaliers              -148      61.7%           +3.4
+Orlando Magic                    +124      38.3%          -14.2
 
 
 === Monday 3/9/2026 ===
