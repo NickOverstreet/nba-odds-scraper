@@ -1,6 +1,24 @@
-Total PICKs: 2 | Won: 0 | Lost: 1 | Profit: -$100.00
+Total PICKs: 2 | Won: 0 | Lost: 2 | Profit: -$200.00
 
-=== Wednesday 3/12/2026 ===
+=== Friday 3/13/2026 ===
+[/nba/game/_/gameId/401810966/mavericks-grizzlies]
+Dallas Mavericks                 -192      49.9%          -24.1
+Memphis Grizzlies                +160      50.1%          +30.3
+
+[/nba/game/_/gameId/401810813/nuggets-spurs]
+Denver Nuggets                   +164      39.5%           +4.3
+San Antonio Spurs                -198      60.5%           -8.9
+
+[/nba/game/_/gameId/401810814/celtics-thunder]
+Boston Celtics                   +220      32.0%           +2.4
+Oklahoma City Thunder            -270      68.0%           -6.8
+
+[/nba/game/_/gameId/401810815/bulls-lakers]
+Chicago Bulls                    +390      26.1%          +27.9
+Los Angeles Lakers               -520      73.9%          -11.9
+
+
+=== Thursday 3/12/2026 ===
 [/nba/game/_/gameId/401810803/raptors-pelicans]
 Toronto Raptors                  -115      49.1%           -8.2
 New Orleans Pelicans             -105      50.9%           -0.6
@@ -20,6 +38,26 @@ Sacramento Kings                 +500      20.1%          +20.6
 [/nba/game/_/gameId/401810807/timberwolves-clippers]
 Minnesota Timberwolves           +102      40.7%          -17.8
 LA Clippers                      -122      59.3%           +7.9
+
+[/nba/game/_/gameId/401810808/76ers-pistons]
+Philadelphia 76ers               +600      18.3%          +28.1
+Detroit Pistons                  -900      81.7%           -9.2
+
+[/nba/game/_/gameId/401810809/suns-pacers]
+Phoenix Suns                     -380      71.0%          -10.3
+Indiana Pacers                   +300      29.0%          +16.0
+
+[/nba/game/_/gameId/401810810/wizards-magic]
+Washington Wizards               +750      17.4%          +47.9
+Orlando Magic                   -1200      82.6%          -10.5
+
+[/nba/game/_/gameId/401810811/nets-hawks]
+Brooklyn Nets                    +650      16.8%          +26.0
+Atlanta Hawks                   -1000      83.2%           -8.5
+
+[/nba/game/_/gameId/401810812/bucks-heat]
+Milwaukee Bucks                  +195      34.7%           +2.4
+Miami Heat                       -238      65.3%           -7.3
 
 
 === Wednesday 3/11/2026 ===

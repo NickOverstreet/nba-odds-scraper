@@ -63,6 +63,22 @@ fn day_of_week(year: i32, month: u32, day: u32) -> u32 {
     ((y + y/4 - y/100 + y/400 + t[(month-1) as usize] + day as i64).rem_euclid(7)) as u32
 }
 
+/// Subtract one calendar day.
+fn prev_day(yr: i32, mo: u32, dy: u32) -> (i32, u32, u32) {
+    if dy > 1 { return (yr, mo, dy - 1); }
+    if mo > 1 {
+        let pm = mo - 1;
+        let last = match pm {
+            1|3|5|7|8|10|12 => 31,
+            4|6|9|11 => 30,
+            2 => if (yr % 4 == 0 && yr % 100 != 0) || yr % 400 == 0 { 29 } else { 28 },
+            _ => 30,
+        };
+        return (yr, pm, last);
+    }
+    (yr - 1, 12, 31)
+}
+
 /// Returns the US Eastern UTC offset: -4 (EDT) or -5 (EST)
 fn et_offset(year: i32, month: u32, day: u32) -> i32 {
     if month > 3 && month < 11 { return -4; }
@@ -80,17 +96,25 @@ fn et_offset(year: i32, month: u32, day: u32) -> i32 {
     else { -5 }
 }
 
-/// "2026-03-09T23:00Z" -> "3/9/2026"
+/// "2026-03-09T23:00Z" -> "3/9/2026" (ET date, not UTC)
 fn short_date_from_iso(raw: &str) -> String {
     let up = raw.trim().to_uppercase();
     if let Some(t_pos) = up.find('T') {
+        let time_str = up[t_pos + 1..].trim_end_matches('Z');
         let parts: Vec<&str> = up[..t_pos].split('-').collect();
         if parts.len() == 3 {
             if let (Ok(yr), Ok(mo), Ok(dy)) = (
-                parts[0].parse::<u32>(),
+                parts[0].parse::<i32>(),
                 parts[1].parse::<u32>(),
                 parts[2].parse::<u32>(),
             ) {
+                // Adjust UTC date to ET date
+                let (yr, mo, dy) = if let Some(colon) = time_str.find(':') {
+                    if let Ok(h_utc) = time_str[..colon].parse::<i32>() {
+                        if h_utc + et_offset(yr, mo, dy) < 0 { prev_day(yr, mo, dy) }
+                        else { (yr, mo, dy) }
+                    } else { (yr, mo, dy) }
+                } else { (yr, mo, dy) };
                 return format!("{}/{}/{}", mo, dy, yr);
             }
         }
@@ -181,17 +205,27 @@ fn parse_odds(html: &str) -> Vec<Game> {
     day_positions.sort_by_key(|&(p, _)| p);
 
     let game_times: Vec<String> = game_links.iter().map(|(href, raw_time)| {
-        let game_pos = html.find(href.as_str()).unwrap_or(0);
-        let day = day_positions.iter()
-            .filter(|&&(p, _)| p < game_pos)
-            .last()
-            .map(|&(_, d)| d)
-            .unwrap_or("");
         let date = short_date_from_iso(raw_time);
         let time = format_game_time(raw_time);
         if date.is_empty() {
+            // No ISO date available; fall back to HTML header scraping
+            let game_pos = html.find(href.as_str()).unwrap_or(0);
+            let day = day_positions.iter()
+                .filter(|&&(p, _)| p < game_pos)
+                .last()
+                .map(|&(_, d)| d)
+                .unwrap_or("");
             format!("{} {}", day, time).trim().to_string()
         } else {
+            // Compute day name from the actual ET date — never trust HTML headers
+            let parts: Vec<&str> = date.split('/').collect();
+            let day = if parts.len() == 3 {
+                if let (Ok(mo), Ok(dy), Ok(yr)) = (
+                    parts[0].parse::<u32>(),
+                    parts[1].parse::<u32>(),
+                    parts[2].parse::<i32>(),
+                ) { day_names[day_of_week(yr, mo, dy) as usize] } else { "" }
+            } else { "" };
             format!("{} {} {}", day, date, time).trim().to_string()
         }
     }).collect();
