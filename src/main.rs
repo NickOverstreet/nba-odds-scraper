@@ -617,31 +617,60 @@ fn save_results(output_dir: &str, games: &[Game]) {
 
     let total_picks: usize = all.iter().map(|r| r.picks).sum();
 
-    // Count won/lost bets for all PICKs within the past 14 days
-    let mut won = 0usize;
-    let mut lost = 0usize;
-    let mut profit = 0.0f64;
-    let bets_to_check: Vec<_> = all.iter()
+    // Collect owned data so we can mutably update `all` afterwards
+    let bets_to_check: Vec<(String, String)> = all.iter()
         .filter(|r| r.picks > 0)
         .filter(|r| parse_section_date(&r.day)
             .map(|(mo, dy, yr)| { let age = days_since(yr, mo, dy); age >= 0 && age <= 14 })
             .unwrap_or(false))
+        .map(|r| (r.url.clone(), r.block.clone()))
         .collect();
 
+    // url -> (is_won, profit_delta)
+    let mut result_map: HashMap<String, (bool, f64)> = HashMap::new();
     if !bets_to_check.is_empty() {
         println!("Checking results for {} bet(s)...", bets_to_check.len());
-        for record in bets_to_check {
-            let Some(game_id) = extract_game_id(&record.url) else { continue };
+        for (url, block) in &bets_to_check {
+            let Some(game_id) = extract_game_id(url) else { continue };
             let Some(winner) = game_winner_name(game_id) else { continue };
-            let Some(pick_team) = pick_team_from_block(&record.block) else { continue };
-            let Some(ml) = pick_ml_from_block(&record.block) else { continue };
+            let Some(pick_team) = pick_team_from_block(block) else { continue };
+            let Some(ml) = pick_ml_from_block(block) else { continue };
             if winner.starts_with(&pick_team) || pick_team.starts_with(&winner) {
-                won += 1;
-                if let Some(win_amt) = ml_win_amount(&ml) { profit += win_amt; }
+                let win_amt = ml_win_amount(&ml).unwrap_or(0.0);
+                result_map.insert(url.clone(), (true, win_amt));
             } else {
-                lost += 1;
-                profit -= 100.0;
+                result_map.insert(url.clone(), (false, -100.0));
             }
+        }
+    }
+
+    let mut won = 0usize;
+    let mut lost = 0usize;
+    let mut profit = 0.0f64;
+    for (_, &(is_won, delta)) in &result_map {
+        if is_won { won += 1; } else { lost += 1; }
+        profit += delta;
+    }
+
+    // Stamp each PICK line with WON/LOST and per-bet profit
+    for record in all.iter_mut() {
+        if let Some(&(is_won, profit_delta)) = result_map.get(&record.url) {
+            let tag = if is_won {
+                format!("WON +${:.2}", profit_delta)
+            } else {
+                "LOST -$100.00".to_string()
+            };
+            record.block = record.block.lines().map(|line| {
+                if line.contains("PICK") {
+                    // Strip any existing WON/LOST tag before re-stamping
+                    let base = line.find(" WON ").or_else(|| line.find(" LOST "))
+                        .map(|p| &line[..p])
+                        .unwrap_or(line);
+                    format!("{} {}", base.trim_end(), tag)
+                } else {
+                    line.to_string()
+                }
+            }).collect::<Vec<_>>().join("\n");
         }
     }
 

@@ -1,4 +1,206 @@
-Total PICKs: 2 | Won: 0 | Lost: 2 | Profit: -$200.00
+Total PICKs: 10 | Won: 3 | Lost: 6 | Profit: +$153.57
+
+=== Sunday 3/23/2026 ===
+[/nba/game/_/gameId/401810890/timberwolves-celtics]
+Minnesota Timberwolves           +300      40.5%          +62.0
+Boston Celtics                   -380      59.5%          -24.8
+
+[/nba/game/_/gameId/401810891/raptors-suns]
+Toronto Raptors                  -120      52.3%           -4.1
+Phoenix Suns                     EVEN      47.7%              -
+
+
+=== Saturday 3/22/2026 ===
+[/nba/game/_/gameId/401810881/warriors-hawks]
+Golden State Warriors            +320      32.4%          +36.1
+Atlanta Hawks                    -410      67.6%          -15.9
+
+[/nba/game/_/gameId/401810882/heat-rockets]
+Miami Heat                       +114      44.6%           -4.6
+Houston Rockets                  -135      55.4%           -3.6
+
+[/nba/game/_/gameId/401810883/pacers-spurs]
+Indiana Pacers                  +1100      12.6%          +51.2
+San Antonio Spurs               -2100      87.4%           -8.4
+
+[/nba/game/_/gameId/401810884/clippers-mavericks]
+LA Clippers                      -290      61.5%          -17.3
+Dallas Mavericks                 +235      38.5%          +29.0
+
+[/nba/game/_/gameId/401810885/76ers-jazz]
+Philadelphia 76ers               -258      70.5%           -2.2
+Utah Jazz                        +210      29.5%           -8.6
+
+[/nba/game/_/gameId/401810886/bucks-suns]
+Milwaukee Bucks                  +440      30.3%          +63.6
+Phoenix Suns                     -600      69.7%          -18.7
+
+
+=== Sunday 3/22/2026 ===
+[/nba/game/_/gameId/401810887/trail-blazers-nuggets]
+Portland Trail BlazersTrai       +275      27.8%           +4.2
+Denver Nuggets                   -345      72.2%           -6.9
+
+[/nba/game/_/gameId/401810889/wizards-knicks]
+Washington Wizards              +1200       5.9%          -23.3
+New York Knicks                 -2400      94.1%           -2.0
+
+[/nba/game/_/gameId/401810888/nets-kings]
+Brooklyn Nets                    +154      42.7%      +8.5 PICK
+Sacramento Kings                 -185      57.3%          -11.7
+
+
+=== Friday 3/21/2026 ===
+[/nba/game/_/gameId/401810873/hawks-rockets]
+Atlanta Hawks                    +140      46.2%     +10.9 PICK LOST -$100.00
+Houston Rockets                  -166      53.8%          -13.8
+
+[/nba/game/_/gameId/401810874/celtics-grizzlies]
+Boston Celtics                   -900      72.8%          -19.1
+Memphis Grizzlies                +600      27.2%          +90.4
+
+[/nba/game/_/gameId/401810875/trail-blazers-timberwolves]
+Portland Trail BlazersTrai       +114      32.1%          -31.3
+Minnesota Timberwolves           -135      67.9%          +18.2
+
+[/nba/game/_/gameId/401810876/raptors-nuggets]
+Toronto Raptors                  +210      33.4%           +3.5
+Denver Nuggets                   -258      66.6%           -7.6
+
+
+=== Saturday 3/21/2026 ===
+[/nba/game/_/gameId/401810879/lakers-magic]
+Los Angeles Lakers               -142      57.5%           -2.0
+Orlando Magic                    +120      42.5%           -6.5
+
+[/nba/game/_/gameId/401810877/thunder-wizards]
+Oklahoma City Thunder           -2800      95.3%           -1.3
+Washington Wizards              +1300       4.7%          -34.2
+
+[/nba/game/_/gameId/401810878/grizzlies-hornets]
+Memphis Grizzlies                +750      23.7%         +101.5
+Charlotte Hornets               -1200      76.3%          -17.3
+
+[/nba/game/_/gameId/401810880/cavaliers-pelicans]
+Cleveland Cavaliers              -198      69.8%           +5.1
+New Orleans Pelicans             +164      30.2%          -20.3
+
+
+=== Friday 3/20/2026 ===
+[/nba/game/_/gameId/401810871/knicks-nets]
+New York Knicks                 -2100      88.9%           -6.9
+Brooklyn Nets                   +1100      11.1%          +33.2
+
+[/nba/game/_/gameId/401810872/warriors-pistons]
+Golden State Warriors            +180      29.8%          -16.6
+Detroit Pistons                  -218      70.2%           +2.4
+
+
+=== Thursday 3/20/2026 ===
+[/nba/game/_/gameId/401810870/76ers-kings]
+Philadelphia 76ers               -148      65.5%      +9.8 PICK WON +$67.57
+Sacramento Kings                 +124      34.5%          -22.7
+
+
+=== Monday 3/17/2026 ===
+[/nba/game/_/gameId/401810842/grizzlies-bulls]
+Memphis Grizzlies                +195      44.7%          +31.9
+Chicago Bulls                    -238      55.3%          -21.5
+
+[/nba/game/_/gameId/401810843/mavericks-pelicans]
+Dallas Mavericks                 +240      36.9%          +25.5
+New Orleans Pelicans             -298      63.1%          -15.7
+
+[/nba/game/_/gameId/401810844/lakers-rockets]
+Los Angeles Lakers               +124      44.8%           +0.4
+Houston Rockets                  -148      55.2%           -7.5
+
+[/nba/game/_/gameId/401810845/spurs-clippers]
+San Antonio Spurs                -395      53.1%          -33.5
+LA Clippers                      +310      46.9%          +92.3
+
+
+=== Monday 3/16/2026 ===
+[/nba/game/_/gameId/401810838/magic-hawks]
+Orlando Magic                    +120      39.4%          -13.3
+Atlanta Hawks                    -142      60.6%           +3.3
+
+[/nba/game/_/gameId/401810839/warriors-wizards]
+Golden State Warriors            -298      69.4%           -7.3
+Washington Wizards               +240      30.6%           +4.0
+
+[/nba/game/_/gameId/401810840/trail-blazers-nets]
+Portland Trail BlazersTrai       -455      69.5%          -15.2
+Brooklyn Nets                    +350      30.5%          +37.2
+
+[/nba/game/_/gameId/401810841/suns-celtics]
+Phoenix Suns                     +330      34.6%          +48.8
+Boston Celtics                   -425      65.4%          -19.2
+
+
+=== Sunday 3/16/2026 ===
+[/nba/game/_/gameId/401810836/warriors-knicks]
+Golden State Warriors            +625      18.6%          +34.9
+New York Knicks                  -950      81.4%          -10.0
+
+[/nba/game/_/gameId/401810837/jazz-kings]
+Utah Jazz                        +130      44.6%           +2.6
+Sacramento Kings                 -155      55.4%           -8.9
+
+
+=== Sunday 3/15/2026 ===
+[/nba/game/_/gameId/401810831/timberwolves-thunder]
+Minnesota Timberwolves           +300      27.9%     +11.6 PICK LOST -$100.00
+Oklahoma City Thunder            -380      72.1%           -8.9
+
+[/nba/game/_/gameId/401810832/mavericks-cavaliers]
+Dallas Mavericks                 +800      18.7%          +68.3
+Cleveland Cavaliers             -1350      81.3%          -12.7
+
+[/nba/game/_/gameId/401810833/pistons-raptors]
+Detroit Pistons                  -175      64.5%           +1.4
+Toronto Raptors                  +145      35.5%          -13.0
+
+[/nba/game/_/gameId/401810834/pacers-bucks]
+Indiana Pacers                   +220      38.7%          +23.8
+Milwaukee Bucks                  -270      61.3%          -16.0
+
+[/nba/game/_/gameId/401810835/trail-blazers-76ers]
+Portland Trail BlazersTrai       -340      56.2%          -27.3
+Philadelphia 76ers               +270      43.8%          +62.1
+
+
+=== Saturday 3/15/2026 ===
+[/nba/game/_/gameId/401810827/magic-heat]
+Orlando Magic                    +136      48.3%     +14.0 PICK WON +$136.00
+Miami Heat                       -162      51.7%          -16.4
+
+[/nba/game/_/gameId/401810830/kings-clippers]
+Sacramento Kings                 +550      17.5%     +13.8 PICK WON +$550.00
+LA Clippers                      -800      82.5%           -7.2
+
+
+=== Saturday 3/14/2026 ===
+[/nba/game/_/gameId/401810829/nuggets-lakers]
+Denver Nuggets                   -122      52.4%           -4.6
+Los Angeles Lakers               +102      47.6%           -3.8
+
+[/nba/game/_/gameId/401810824/nets-76ers]
+Brooklyn Nets                    +300      21.5%          -14.0
+Philadelphia 76ers               -380      78.5%           -0.8
+
+[/nba/game/_/gameId/401810825/bucks-hawks]
+Milwaukee Bucks                  +235      27.7%           -7.2
+Atlanta Hawks                    -290      72.3%           -2.8
+
+[/nba/game/_/gameId/401810828/hornets-spurs]
+Charlotte Hornets                +200      42.4%          +27.2
+San Antonio Spurs                -245      57.6%          -18.9
+
+[/nba/game/_/gameId/401810826/wizards-celtics]
+Washington Wizards              +1100       9.8%     +17.6 PICK LOST -$100.00
+Boston Celtics                  -2100      90.2%           -5.5
+
 
 === Friday 3/13/2026 ===
 [/nba/game/_/gameId/401810966/mavericks-grizzlies]
@@ -17,6 +219,38 @@ Oklahoma City Thunder            -270      68.0%           -6.8
 Chicago Bulls                    +390      26.1%          +27.9
 Los Angeles Lakers               -520      73.9%          -11.9
 
+[/nba/game/_/gameId/401810816/grizzlies-pistons]
+Memphis Grizzlies                +900      21.8%         +118.0
+Detroit Pistons                 -1600      78.2%          -16.9
+
+[/nba/game/_/gameId/401810817/knicks-pacers]
+New York Knicks                  -700      81.6%           -6.7
+Indiana Pacers                   +500      18.4%          +10.4
+
+[/nba/game/_/gameId/401810818/suns-raptors]
+Phoenix Suns                     +160      45.4%     +18.0 PICK LOST -$100.00
+Toronto Raptors                  -192      54.6%          -17.0
+
+[/nba/game/_/gameId/401810820/cavaliers-mavericks]
+Cleveland Cavaliers              -750      74.1%          -16.0
+Dallas Mavericks                 +525      25.9%          +61.9
+
+[/nba/game/_/gameId/401810819/pelicans-rockets]
+New Orleans Pelicans             +185      31.9%           -9.1
+Houston Rockets                  -225      68.1%           -1.6
+
+[/nba/game/_/gameId/401810821/timberwolves-warriors]
+Minnesota Timberwolves           -205      54.3%          -19.2
+Golden State Warriors            +170      45.7%          +23.4
+
+[/nba/game/_/gameId/401810822/jazz-trail-blazers]
+Utah Jazz                        +750      19.7%          +67.5
+Portland Trail BlazersTrai      -1200      80.3%          -13.0
+
+[/nba/game/_/gameId/401810823/bulls-clippers]
+Chicago Bulls                    +550      20.1%          +30.7
+LA Clippers                      -800      79.9%          -10.1
+
 
 === Thursday 3/12/2026 ===
 [/nba/game/_/gameId/401810803/raptors-pelicans]
@@ -28,7 +262,7 @@ New York Knicks                  -700      86.6%           -1.0
 Utah Jazz                        +500      13.4%          -19.6
 
 [/nba/game/_/gameId/401810805/rockets-nuggets]
-Houston Rockets                  +170      40.9%     +10.4 PICK
+Houston Rockets                  +170      40.9%     +10.4 PICK LOST -$100.00
 Denver Nuggets                   -205      59.1%          -12.1
 
 [/nba/game/_/gameId/401810806/hornets-kings]
@@ -68,7 +302,7 @@ Orlando Magic                    +124      38.3%          -14.2
 
 === Monday 3/9/2026 ===
 [/nba/game/_/gameId/401810786/76ers-cavaliers]
-Philadelphia 76ers             +390     24.2%     +18.6 PICK
+Philadelphia 76ers             +390     24.2%     +18.6 PICK LOST -$100.00
 Cleveland Cavaliers            -480     75.8%          -6.7
 
 [/nba/game/_/gameId/401810787/heat-knicks]
