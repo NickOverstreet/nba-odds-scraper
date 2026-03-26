@@ -437,13 +437,11 @@ fn game_to_record(game: &Game) -> Record {
     );
 
     let picks = block.lines().filter(|l| l.contains("PICK")).count();
-    // day key = "Monday 3/9/2026" (first two words when second looks like a date)
-    let day = {
-        let mut parts = game.time.splitn(3, ' ');
-        let first = parts.next().unwrap_or("").to_string();
-        let second = parts.next().unwrap_or("");
-        if second.contains('/') { format!("{} {}", first, second) } else { first }
-    };
+    // day key = "3/9/2026" — extract the date token from game.time
+    let day = game.time.split_whitespace()
+        .find(|p| p.contains('/'))
+        .unwrap_or("")
+        .to_string();
 
     Record { day, url: game.game_url.clone(), block, picks }
 }
@@ -484,7 +482,11 @@ fn load_records(path: &str) -> Vec<Record> {
         if line.starts_with("=== ") && line.ends_with(" ===") {
             flush(&current_day, &current_url, &mut current_lines, &mut records);
             current_url.clear();
-            current_day = line[4..line.len() - 4].to_string();
+            let raw = &line[4..line.len() - 4];
+            current_day = raw.split_whitespace()
+                .find(|p| p.contains('/'))
+                .unwrap_or(raw)
+                .to_string();
         } else if line.starts_with('[') && line.ends_with(']') {
             flush(&current_day, &current_url, &mut current_lines, &mut records);
             current_url = line[1..line.len() - 1].to_string();
@@ -518,9 +520,9 @@ fn days_since(yr: i32, mo: u32, dy: u32) -> i64 {
     today_jdn - ymd_to_jdn(yr, mo, dy)
 }
 
-/// "Monday 3/9/2026" -> Some((3, 9, 2026))
+/// "3/9/2026" or "Monday 3/9/2026" -> Some((3, 9, 2026))
 fn parse_section_date(day_str: &str) -> Option<(u32, u32, i32)> {
-    let date = day_str.split_whitespace().nth(1)?;
+    let date = day_str.split_whitespace().find(|p| p.contains('/'))?;
     let p: Vec<&str> = date.split('/').collect();
     if p.len() != 3 { return None; }
     Some((p[0].parse().ok()?, p[1].parse().ok()?, p[2].parse().ok()?))
@@ -679,7 +681,11 @@ fn save_results(output_dir: &str, games: &[Game]) {
     } else {
         format!("-${:.2}", profit.abs())
     };
-    let mut out = format!("Total PICKs: {} | Won: {} | Lost: {} | Profit: {}\n", total_picks, won, lost, profit_str);
+    let mut out = format!(
+        "Total PICKs: {} | Won: {} | Lost: {} | Profit: {}\n{:<26} {:>10} {:>10} {:>14}\n",
+        total_picks, won, lost, profit_str,
+        "Team", "ML", "Pred%", "EV"
+    );
     for day in &days {
         out.push_str(&format!("\n=== {} ===\n", day));
         for &i in &by_day[day] {
