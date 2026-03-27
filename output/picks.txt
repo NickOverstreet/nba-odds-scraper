@@ -1,4 +1,4 @@
-Total PICKs: 11 | Won: 3 | Lost: 6 | Profit: +$153.57
+Total PICKs: 11 | Won: 3 | Lost: 8 | Profit: -$46.43
 Team                               ML      Pred%             EV
 
 === 3/27/2026 ===
@@ -17,6 +17,30 @@ Oklahoma City Thunder           -2100      89.8%           -5.9
 [/nba/game/_/gameId/401810927/jazz-nuggets]
 Utah Jazz                       +1400       8.3%          +24.5
 Denver Nuggets                  -3200      91.7%           -5.4
+
+[/nba/game/_/gameId/401810921/clippers-pacers]
+LA Clippers                      -380      73.6%           -7.0
+Indiana Pacers                   +300      26.4%           +5.6
+
+[/nba/game/_/gameId/401810924/rockets-grizzlies]
+Houston Rockets                  -850      70.5%          -21.2
+Memphis Grizzlies                +575      29.5%          +99.1
+
+[/nba/game/_/gameId/401810926/pelicans-raptors]
+New Orleans Pelicans             +300      34.5%          +38.0
+Toronto Raptors                  -380      65.5%          -17.3
+
+[/nba/game/_/gameId/401810928/wizards-warriors]
+Washington Wizards               +650      13.5%           +1.2
+Golden State Warriors           -1000      86.5%           -4.8
+
+[/nba/game/_/gameId/401810929/mavericks-trail-blazers]
+Dallas Mavericks                 +360      33.9%          +55.9
+Portland Trail BlazersTrai       -470      66.1%          -19.8
+
+[/nba/game/_/gameId/401810930/nets-lakers]
+Brooklyn Nets                    +950      12.4%          +30.2
+Los Angeles Lakers              -1650      87.6%           -7.1
 
 
 === 3/26/2026 ===
@@ -49,7 +73,7 @@ Toronto Raptors                  +154      37.5%           -4.8
 LA Clippers                      -185      62.5%           -3.7
 
 [/nba/game/_/gameId/401810918/knicks-hornets]
-New York Knicks                  +110      51.6%      +8.4 PICK
+New York Knicks                  +110      51.6%      +8.4 PICK LOST -$100.00
 Charlotte Hornets                -130      48.4%          -14.4
 
 [/nba/game/_/gameId/401810919/pelicans-pistons]

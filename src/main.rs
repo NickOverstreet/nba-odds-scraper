@@ -649,9 +649,27 @@ fn save_results(output_dir: &str, games: &[Game]) {
     let mut won = 0usize;
     let mut lost = 0usize;
     let mut profit = 0.0f64;
+    // Count fresh API results first
     for (_, &(is_won, delta)) in &result_map {
         if is_won { won += 1; } else { lost += 1; }
         profit += delta;
+    }
+    // For picks not resolved this run, read existing WON/LOST stamps from blocks
+    for record in &all {
+        if record.picks == 0 || result_map.contains_key(&record.url) { continue; }
+        for line in record.block.lines() {
+            if line.contains("PICK WON") {
+                won += 1;
+                if let Some(amt) = line.split("WON +$").nth(1)
+                    .and_then(|s| s.trim().parse::<f64>().ok())
+                {
+                    profit += amt;
+                }
+            } else if line.contains("PICK LOST") {
+                lost += 1;
+                profit -= 100.0;
+            }
+        }
     }
 
     // Stamp each PICK line with WON/LOST and per-bet profit
