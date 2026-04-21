@@ -1,6 +1,58 @@
 Total PICKs: 14 | Won: 3 | Lost: 11 | Profit: -$346.43
 Team                               ML      Pred%             EV
 
+=== 4/23/2026 ===
+[/nba/game/_/gameId/401869389/knicks-hawks]
+New York Knicks                  -112      55.6%           +5.2
+Atlanta Hawks                    -108      44.4%          -14.5
+
+[/nba/game/_/gameId/401869375/cavaliers-raptors]
+Cleveland Cavaliers              -148      44.7%          -25.1
+Toronto Raptors                  +124      55.3%          +23.9
+
+[/nba/game/_/gameId/401869398/nuggets-timberwolves]
+Denver Nuggets                   -118      53.5%           -1.2
+Minnesota Timberwolves           -102      46.5%           -7.9
+
+
+=== 4/22/2026 ===
+[/nba/game/_/gameId/401869411/magic-pistons]
+Orlando Magic                    +330      23.3%           +0.2
+Detroit Pistons                  -425      76.7%           -5.3
+
+[/nba/game/_/gameId/401869368/suns-thunder]
+Phoenix Suns                    +1100      14.9%          +78.8
+Oklahoma City Thunder           -2100      85.1%          -10.8
+
+
+=== 4/21/2026 ===
+[/nba/game/_/gameId/401869397/rockets-lakers]
+Houston Rockets                  -170      49.3%          -21.7
+Los Angeles Lakers               +142      50.7%          +22.7
+
+[/nba/game/_/gameId/401869396/76ers-celtics]
+Philadelphia 76ers               +575      20.8%          +40.4
+Boston Celtics                   -850      79.2%          -11.5
+
+[/nba/game/_/gameId/401869378/trail-blazers-spurs]
+Portland Trail BlazersTrai       +470      18.0%           +2.6
+San Antonio Spurs                -650      82.0%           -5.4
+
+
+=== 4/20/2026 ===
+[/nba/game/_/gameId/401869369/raptors-cavaliers]
+Toronto Raptors                  +270      38.0%          +40.6
+Cleveland Cavaliers              -340      62.0%          -19.8
+
+[/nba/game/_/gameId/401869387/hawks-knicks]
+Atlanta Hawks                    +185      27.3%          -22.2
+New York Knicks                  -225      72.7%           +5.0
+
+[/nba/game/_/gameId/401869395/timberwolves-nuggets]
+Minnesota Timberwolves           +200      28.0%          -16.0
+Denver Nuggets                   -245      72.0%           +1.4
+
+
 === 4/19/2026 ===
 [/nba/game/_/gameId/401869194/trail-blazers-spurs]
 Portland Trail BlazersTrai       +350      18.7%          -15.8
@@ -9,6 +61,14 @@ San Antonio Spurs                -455      81.3%           -0.8
 [/nba/game/_/gameId/401869191/76ers-celtics]
 Philadelphia 76ers               +455      25.6%          +42.1
 Boston Celtics                   -625      74.4%          -13.7
+
+[/nba/game/_/gameId/401869193/magic-pistons]
+Orlando Magic                    +260      22.9%          -17.6
+Detroit Pistons                  -325      77.1%           +0.8
+
+[/nba/game/_/gameId/401869192/suns-thunder]
+Phoenix Suns                     +700      22.9%          +83.2
+Oklahoma City Thunder           -1100      77.1%          -15.9
 
 
 === 4/18/2026 ===

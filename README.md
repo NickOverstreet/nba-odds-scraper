@@ -6,11 +6,12 @@ Scrapes ESPN's NBA odds page, fetches ESPN's matchup predictor for each game, ca
 
 Each run:
 1. Fetches today's NBA games and DraftKings moneylines from [espn.com/nba/odds](https://www.espn.com/nba/odds)
-2. Fetches ESPN's matchup predictor win probability for each game
+2. Fetches ESPN's matchup predictor win probability for each game **concurrently**
 3. Calculates EV for each team's moneyline bet using the predictor probability
 4. Flags **away team** bets with EV between **8.1 and 19.9** as **PICK** (away teams only)
-5. Saves all games to `output/picks.txt`, grouped by day
-6. Checks the past 14 days of PICKs against ESPN's results API and updates the won/lost/profit counter
+5. Persists all games to `output/picks.db` (SQLite), grouped by day
+6. Exports a human-readable `output/picks.txt` from the database each run
+7. Checks the past 14 days of PICKs against ESPN's results API and updates the won/lost/profit counter
 
 ## EV Formula
 
@@ -41,17 +42,27 @@ Cleveland Cavaliers            -480      75.8%          -6.7
 ```
 Total PICKs: 7 | Won: 3 | Lost: 2 | Profit: +$840.00
 
-=== Monday 3/9/2026 ===
+=== 3/9/2026 ===
 [/nba/game/_/gameId/401810786/76ers-cavaliers]
-Philadelphia 76ers         +390      24.2%      +18.6 PICK
+Philadelphia 76ers         +390      24.2%      +18.6 PICK WON +$390.00
 Cleveland Cavaliers        -480      75.8%          -6.7
 ```
 
 - Only the **away team** can be flagged as a PICK — home team EV is shown but never picked
-- Re-running the app will not duplicate games already in the file
+- Re-running the app will not duplicate games already in the database
 - The won/lost/profit counter updates every run based on completed game results
 - Only games within the past 14 days are checked for results
 - Profit assumes $100 flat bets on each PICK
+- On first run, any existing `picks.txt` is automatically migrated into the SQLite database
+
+## Architecture
+
+| Feature | Implementation |
+| --- | --- |
+| Concurrent HTTP fetches | `rayon` — matchup predictor pages fetched in parallel across all CPU threads |
+| Persistent storage | `rusqlite` (bundled SQLite) — `games` table keyed by game URL |
+| Human-readable export | `picks.txt` regenerated from the database each run |
+| Unit tests | 28 tests covering all pure functions (`cargo test`) |
 
 ## Build
 
@@ -69,6 +80,9 @@ cargo run
 
 # Or run the release binary directly
 ./target/release/nba-odds
+
+# Run unit tests
+cargo test
 ```
 
 ## Run on Windows startup
@@ -97,3 +111,5 @@ Then point Task Scheduler at `wscript.exe` with argument `D:\repos\Personal\espn
 | `scraper` | HTML parsing |
 | `clap` | CLI argument parsing |
 | `serde_json` | Parsing ESPN's game results API response |
+| `rayon` | Data-parallel iterators for concurrent game fetches |
+| `rusqlite` | Embedded SQLite database (bundled, no system dep required) |

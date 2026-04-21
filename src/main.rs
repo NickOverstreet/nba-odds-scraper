@@ -1,4 +1,6 @@
 use clap::Parser;
+use rayon::prelude::*;
+use rusqlite::Connection;
 use scraper::{Html, Selector};
 use std::collections::{HashMap, HashSet};
 use std::fs;
@@ -406,7 +408,7 @@ fn truncate(s: &str, max: usize) -> &str {
 // ── Persistence ─────────────────────────────────────────────────────────────
 
 struct Record {
-    day: String,   // e.g. "Monday"
+    day: String,   // e.g. "3/9/2026"
     url: String,   // game URL, used as unique key
     block: String, // two formatted team lines
     picks: usize,  // 0, 1, or 2
@@ -446,14 +448,40 @@ fn game_to_record(game: &Game) -> Record {
     Record { day, url: game.game_url.clone(), block, picks }
 }
 
-/// Parse records out of an existing picks.txt.
-/// File format:
-///   Total PICKs: N
-///   === Monday ===
-///   [/nba/game/...]
-///   Team A ...
-///   Team B ...
-fn load_records(path: &str) -> Vec<Record> {
+// ── SQLite persistence ───────────────────────────────────────────────────────
+
+fn open_db(path: &str) -> rusqlite::Result<Connection> {
+    let conn = Connection::open(path)?;
+    conn.execute_batch(
+        "CREATE TABLE IF NOT EXISTS games (
+            url   TEXT PRIMARY KEY,
+            day   TEXT NOT NULL,
+            block TEXT NOT NULL,
+            picks INTEGER NOT NULL DEFAULT 0
+        );"
+    )?;
+    Ok(conn)
+}
+
+fn load_records_from_db(conn: &Connection) -> Vec<Record> {
+    let mut stmt = conn
+        .prepare("SELECT url, day, block, picks FROM games")
+        .expect("failed to prepare SELECT");
+    stmt.query_map([], |row| {
+        Ok(Record {
+            url:   row.get(0)?,
+            day:   row.get(1)?,
+            block: row.get(2)?,
+            picks: row.get::<_, i64>(3)? as usize,
+        })
+    })
+    .expect("query failed")
+    .filter_map(Result::ok)
+    .collect()
+}
+
+/// Parse records from a flat picks.txt — used for one-time migration into SQLite.
+fn load_records_from_file(path: &str) -> Vec<Record> {
     let content = match fs::read_to_string(path) {
         Ok(c) => c,
         Err(_) => return Vec::new(),
@@ -583,10 +611,38 @@ fn save_results(output_dir: &str, games: &[Game]) {
         return;
     }
 
-    let path = format!("{}/picks.txt", output_dir);
+    let db_path = format!("{}/picks.db", output_dir);
+    let conn = match open_db(&db_path) {
+        Ok(c) => c,
+        Err(e) => { eprintln!("DB error: {}", e); return; }
+    };
 
-    let existing = load_records(&path);
-    let seen_urls: HashSet<String> = existing.iter().map(|r| r.url.clone()).collect();
+    // One-time migration: if DB is empty and picks.txt exists, import it
+    let db_count: i64 = conn
+        .query_row("SELECT COUNT(*) FROM games", [], |r| r.get(0))
+        .unwrap_or(0);
+    if db_count == 0 {
+        let txt_path = format!("{}/picks.txt", output_dir);
+        let migrated = load_records_from_file(&txt_path);
+        if !migrated.is_empty() {
+            println!("Migrating {} record(s) from picks.txt to SQLite...", migrated.len());
+            for r in migrated {
+                conn.execute(
+                    "INSERT OR IGNORE INTO games (url, day, block, picks) VALUES (?1, ?2, ?3, ?4)",
+                    rusqlite::params![r.url, r.day, r.block, r.picks as i64],
+                ).ok();
+            }
+        }
+    }
+
+    // Identify which games are new
+    let seen_urls: HashSet<String> = {
+        let mut stmt = conn.prepare("SELECT url FROM games").unwrap();
+        stmt.query_map([], |r| r.get::<_, String>(0))
+            .unwrap()
+            .filter_map(Result::ok)
+            .collect()
+    };
 
     let new_records: Vec<Record> = games.iter()
         .filter(|g| !g.game_url.is_empty() && !seen_urls.contains(&g.game_url))
@@ -594,32 +650,24 @@ fn save_results(output_dir: &str, games: &[Game]) {
         .collect();
 
     let added = new_records.len();
-    let mut all: Vec<Record> = existing;
-    all.extend(new_records);
+    for r in &new_records {
+        conn.execute(
+            "INSERT OR IGNORE INTO games (url, day, block, picks) VALUES (?1, ?2, ?3, ?4)",
+            rusqlite::params![r.url, r.day, r.block, r.picks as i64],
+        ).ok();
+    }
+
+    // Load all records from DB
+    let mut all = load_records_from_db(&conn);
 
     if all.is_empty() {
         println!("No games to save.");
         return;
     }
 
-    // Group by day
-    let mut by_day: HashMap<String, Vec<usize>> = HashMap::new();
-    for (i, r) in all.iter().enumerate() {
-        by_day.entry(r.day.clone()).or_default().push(i);
-    }
-
-    // Sort days newest-first by calendar date
-    let mut days: Vec<String> = by_day.keys().cloned().collect();
-    days.sort_by(|a, b| {
-        let jdn = |s: &str| parse_section_date(s)
-            .map(|(mo, dy, yr)| ymd_to_jdn(yr, mo, dy))
-            .unwrap_or(0);
-        jdn(b).cmp(&jdn(a))
-    });
-
     let total_picks: usize = all.iter().map(|r| r.picks).sum();
 
-    // Collect owned data so we can mutably update `all` afterwards
+    // Collect bets to check (picks within last 14 days)
     let bets_to_check: Vec<(String, String)> = all.iter()
         .filter(|r| r.picks > 0)
         .filter(|r| parse_section_date(&r.day)
@@ -628,15 +676,14 @@ fn save_results(output_dir: &str, games: &[Game]) {
         .map(|r| (r.url.clone(), r.block.clone()))
         .collect();
 
-    // url -> (is_won, profit_delta)
     let mut result_map: HashMap<String, (bool, f64)> = HashMap::new();
     if !bets_to_check.is_empty() {
         println!("Checking results for {} bet(s)...", bets_to_check.len());
         for (url, block) in &bets_to_check {
             let Some(game_id) = extract_game_id(url) else { continue };
             let Some(winner) = game_winner_name(game_id) else { continue };
-            let Some(pick_team) = pick_team_from_block(block) else { continue };
-            let Some(ml) = pick_ml_from_block(block) else { continue };
+            let Some(pick_team) = pick_team_from_block(&block) else { continue };
+            let Some(ml) = pick_ml_from_block(&block) else { continue };
             if winner.starts_with(&pick_team) || pick_team.starts_with(&winner) {
                 let win_amt = ml_win_amount(&ml).unwrap_or(0.0);
                 result_map.insert(url.clone(), (true, win_amt));
@@ -672,7 +719,7 @@ fn save_results(output_dir: &str, games: &[Game]) {
         }
     }
 
-    // Stamp each PICK line with WON/LOST and per-bet profit
+    // Stamp each PICK line with WON/LOST, update in-memory and in DB
     for record in all.iter_mut() {
         if let Some(&(is_won, profit_delta)) = result_map.get(&record.url) {
             let tag = if is_won {
@@ -682,7 +729,6 @@ fn save_results(output_dir: &str, games: &[Game]) {
             };
             record.block = record.block.lines().map(|line| {
                 if line.contains("PICK") {
-                    // Strip any existing WON/LOST tag before re-stamping
                     let base = line.find(" WON ").or_else(|| line.find(" LOST "))
                         .map(|p| &line[..p])
                         .unwrap_or(line);
@@ -691,14 +737,35 @@ fn save_results(output_dir: &str, games: &[Game]) {
                     line.to_string()
                 }
             }).collect::<Vec<_>>().join("\n");
+
+            conn.execute(
+                "UPDATE games SET block = ?1 WHERE url = ?2",
+                rusqlite::params![record.block, record.url],
+            ).ok();
         }
     }
+
+    // Group by day and sort newest-first
+    let mut by_day: HashMap<String, Vec<usize>> = HashMap::new();
+    for (i, r) in all.iter().enumerate() {
+        by_day.entry(r.day.clone()).or_default().push(i);
+    }
+    let mut days: Vec<String> = by_day.keys().cloned().collect();
+    days.sort_by(|a, b| {
+        let jdn = |s: &str| parse_section_date(s)
+            .map(|(mo, dy, yr)| ymd_to_jdn(yr, mo, dy))
+            .unwrap_or(0);
+        jdn(b).cmp(&jdn(a))
+    });
 
     let profit_str = if profit >= 0.0 {
         format!("+${:.2}", profit)
     } else {
         format!("-${:.2}", profit.abs())
     };
+
+    // Regenerate picks.txt as a human-readable export from the DB
+    let txt_path = format!("{}/picks.txt", output_dir);
     let mut out = format!(
         "Total PICKs: {} | Won: {} | Lost: {} | Profit: {}\n{:<26} {:>10} {:>10} {:>14}\n",
         total_picks, won, lost, profit_str,
@@ -711,10 +778,14 @@ fn save_results(output_dir: &str, games: &[Game]) {
         }
     }
 
-    match fs::write(&path, out.trim_end()) {
-        Ok(_) => println!("Saved {} new game(s) to {} | Total PICKs: {}", added, path, total_picks),
-        Err(e) => eprintln!("Failed to write {}: {}", path, e),
+    if let Err(e) = fs::write(&txt_path, out.trim_end()) {
+        eprintln!("Failed to write {}: {}", txt_path, e);
     }
+
+    println!(
+        "Saved {} new game(s) to {} | Total PICKs: {}",
+        added, db_path, total_picks
+    );
 }
 
 fn main() {
@@ -728,16 +799,193 @@ fn main() {
 
     let mut games = parse_odds(&html);
 
-    println!("Fetching matchup predictor for {} game(s)...", games.len());
-    for game in &mut games {
+    println!("Fetching matchup predictor for {} game(s) (concurrent)...", games.len());
+    games.par_iter_mut().for_each(|game| {
         if !game.game_url.is_empty() {
             if let Some((away_pct, home_pct)) = fetch_matchup_predictor(&game.game_url) {
                 game.away_predictor = Some(away_pct);
                 game.home_predictor = Some(home_pct);
             }
         }
-    }
+    });
 
     print_games(&games);
     save_results("output", &games);
+}
+
+// ── Unit tests ───────────────────────────────────────────────────────────────
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_ml_win_amount_positive() {
+        let v = ml_win_amount("+390").unwrap();
+        assert!((v - 390.0).abs() < 0.001);
+    }
+
+    #[test]
+    fn test_ml_win_amount_negative() {
+        let v = ml_win_amount("-200").unwrap();
+        assert!((v - 50.0).abs() < 0.001);
+    }
+
+    #[test]
+    fn test_ml_win_amount_negative_110() {
+        let v = ml_win_amount("-110").unwrap();
+        assert!((v - 90.909).abs() < 0.01);
+    }
+
+    #[test]
+    fn test_ml_win_amount_zero_returns_none() {
+        assert!(ml_win_amount("0").is_none());
+    }
+
+    #[test]
+    fn test_ml_win_amount_invalid_returns_none() {
+        assert!(ml_win_amount("abc").is_none());
+    }
+
+    #[test]
+    fn test_calc_ev_pick_range() {
+        // 24.2% win probability on +390: EV ≈ 0.242*390 - 0.758*100 = 18.58
+        let ev = calc_ev(24.2, "+390").unwrap();
+        assert!((ev - 18.58).abs() < 0.1, "ev={}", ev);
+    }
+
+    #[test]
+    fn test_calc_ev_negative() {
+        // Heavy favorite: -480 with 75.8% win prob
+        let ev = calc_ev(75.8, "-480").unwrap();
+        assert!(ev < 0.0, "expected negative EV, got {}", ev);
+    }
+
+    #[test]
+    fn test_ymd_to_jdn_known_date() {
+        // J2000.0 epoch: JDN of 2000-01-01 is 2451545
+        assert_eq!(ymd_to_jdn(2000, 1, 1), 2451545);
+    }
+
+    #[test]
+    fn test_ymd_to_jdn_ordering() {
+        assert!(ymd_to_jdn(2026, 3, 10) > ymd_to_jdn(2026, 3, 9));
+        assert!(ymd_to_jdn(2026, 4, 1) > ymd_to_jdn(2026, 3, 31));
+    }
+
+    #[test]
+    fn test_day_of_week_monday() {
+        // 2026-03-09 is a Monday
+        assert_eq!(day_of_week(2026, 3, 9), 1);
+    }
+
+    #[test]
+    fn test_day_of_week_sunday() {
+        // 2026-03-08 is a Sunday
+        assert_eq!(day_of_week(2026, 3, 8), 0);
+    }
+
+    #[test]
+    fn test_et_offset_edt() {
+        // After second Sunday of March (March 8, 2026) -> EDT = -4
+        assert_eq!(et_offset(2026, 3, 9), -4);
+        assert_eq!(et_offset(2026, 7, 4), -4);
+    }
+
+    #[test]
+    fn test_et_offset_est() {
+        assert_eq!(et_offset(2026, 1, 15), -5);
+        assert_eq!(et_offset(2026, 12, 1), -5);
+    }
+
+    #[test]
+    fn test_short_date_from_iso_same_day() {
+        // 11pm UTC on March 9, 2026 = 7pm ET (after DST) — same ET date
+        assert_eq!(short_date_from_iso("2026-03-09T23:00Z"), "3/9/2026");
+    }
+
+    #[test]
+    fn test_short_date_from_iso_prev_day() {
+        // 2am UTC on March 10 = 10pm ET on March 9 (EDT = -4)
+        assert_eq!(short_date_from_iso("2026-03-10T02:00Z"), "3/9/2026");
+    }
+
+    #[test]
+    fn test_parse_section_date_plain() {
+        assert_eq!(parse_section_date("3/9/2026"), Some((3, 9, 2026)));
+    }
+
+    #[test]
+    fn test_parse_section_date_with_day_name() {
+        assert_eq!(parse_section_date("Monday 3/9/2026"), Some((3, 9, 2026)));
+    }
+
+    #[test]
+    fn test_parse_section_date_invalid() {
+        assert_eq!(parse_section_date("bad input"), None);
+    }
+
+    #[test]
+    fn test_extract_game_id() {
+        assert_eq!(
+            extract_game_id("/nba/game/_/gameId/401810786/76ers-cavaliers"),
+            Some("401810786")
+        );
+    }
+
+    #[test]
+    fn test_extract_game_id_missing() {
+        assert_eq!(extract_game_id("/nba/game/"), None);
+    }
+
+    #[test]
+    fn test_pick_team_from_block() {
+        let block = format!(
+            "{:<26} {:>10} {:>10} {:>14}\n{:<26} {:>10} {:>10} {:>14}",
+            "Philadelphia 76ers", "+390", "24.2%", "+18.6 PICK",
+            "Cleveland Cavaliers", "-480", "75.8%", "-6.7"
+        );
+        assert_eq!(pick_team_from_block(&block).unwrap(), "Philadelphia 76ers");
+    }
+
+    #[test]
+    fn test_pick_ml_from_block() {
+        let block = format!(
+            "{:<26} {:>10} {:>10} {:>14}\n{:<26} {:>10} {:>10} {:>14}",
+            "Philadelphia 76ers", "+390", "24.2%", "+18.6 PICK",
+            "Cleveland Cavaliers", "-480", "75.8%", "-6.7"
+        );
+        assert_eq!(pick_ml_from_block(&block).unwrap(), "+390");
+    }
+
+    #[test]
+    fn test_pick_team_from_block_none_when_no_pick() {
+        let block = "Team A       +200  50.0%  +0.0\nTeam B       -240  50.0%  -0.0";
+        assert!(pick_team_from_block(block).is_none());
+    }
+
+    #[test]
+    fn test_clean_team_name_standard() {
+        assert_eq!(clean_team_name("Denver NuggetsNuggetsDEN"), "Denver Nuggets");
+    }
+
+    #[test]
+    fn test_clean_team_name_numbers_in_name() {
+        assert_eq!(clean_team_name("Philadelphia 76ers76ersPHI"), "Philadelphia 76ers");
+    }
+
+    #[test]
+    fn test_prev_day_mid_month() {
+        assert_eq!(prev_day(2026, 3, 15), (2026, 3, 14));
+    }
+
+    #[test]
+    fn test_prev_day_month_boundary() {
+        assert_eq!(prev_day(2026, 3, 1), (2026, 2, 28));
+    }
+
+    #[test]
+    fn test_prev_day_year_boundary() {
+        assert_eq!(prev_day(2026, 1, 1), (2025, 12, 31));
+    }
 }
