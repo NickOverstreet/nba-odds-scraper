@@ -1,5 +1,279 @@
-Total PICKs: 14 | Won: 3 | Lost: 11 | Profit: -$346.43
+Total PICKs: 18 | Won: 5 | Lost: 13 | Profit: -$167.43
 Team                               ML      Pred%             EV
+
+=== 6/8/2026 ===
+[/nba/game/_/gameId/401859965/spurs-knicks]
+San Antonio Spurs                +114      41.8%          -10.5
+New York Knicks                  -135      58.2%           +1.3
+
+
+=== 6/5/2026 ===
+[/nba/game/_/gameId/401859964/knicks-spurs]
+New York Knicks                  +190      43.2%          +25.3
+San Antonio Spurs                -230      56.8%          -18.5
+
+
+=== 6/3/2026 ===
+[/nba/game/_/gameId/401859963/knicks-spurs]
+New York Knicks                  +164      41.9%     +10.6 PICK WON +$164.00
+San Antonio Spurs                -198      58.1%          -12.6
+
+
+=== 5/30/2026 ===
+[/nba/game/_/gameId/401873203/spurs-thunder]
+San Antonio Spurs                +136      37.8%          -10.8
+Oklahoma City Thunder            -162      62.2%           +0.6
+
+
+=== 5/28/2026 ===
+[/nba/game/_/gameId/401873202/thunder-spurs]
+Oklahoma City Thunder            +136      46.1%      +8.8 PICK LOST -$100.00
+San Antonio Spurs                -162      53.9%          -12.8
+
+
+=== 5/26/2026 ===
+[/nba/game/_/gameId/401873201/spurs-thunder]
+San Antonio Spurs                +164      39.7%           +4.8
+Oklahoma City Thunder            -198      60.3%           -9.2
+
+
+=== 5/25/2026 ===
+[/nba/game/_/gameId/401873344/knicks-cavaliers]
+New York Knicks                  -125      59.5%           +7.1
+Cleveland Cavaliers              +105      40.5%          -17.0
+
+
+=== 5/24/2026 ===
+[/nba/game/_/gameId/401873200/thunder-spurs]
+Oklahoma City Thunder            +120      46.2%           +1.6
+San Antonio Spurs                -142      53.8%           -8.3
+
+
+=== 5/23/2026 ===
+[/nba/game/_/gameId/401873343/knicks-cavaliers]
+New York Knicks                  +114      58.3%          +24.8
+Cleveland Cavaliers              -135      41.7%          -27.4
+
+
+=== 5/22/2026 ===
+[/nba/game/_/gameId/401873199/thunder-spurs]
+Oklahoma City Thunder            +114      46.7%           -0.1
+San Antonio Spurs                -135      53.3%           -7.2
+
+
+=== 5/21/2026 ===
+[/nba/game/_/gameId/401873342/cavaliers-knicks]
+Cleveland Cavaliers              +185      29.2%          -16.8
+New York Knicks                  -225      70.8%           +2.3
+
+
+=== 5/20/2026 ===
+[/nba/game/_/gameId/401873198/spurs-thunder]
+San Antonio Spurs                +200      37.9%     +13.7 PICK LOST -$100.00
+Oklahoma City Thunder            -245      62.1%          -12.6
+
+
+=== 5/19/2026 ===
+[/nba/game/_/gameId/401873341/cavaliers-knicks]
+Cleveland Cavaliers              +215      29.3%           -7.7
+New York Knicks                  -265      70.7%           -2.6
+
+
+=== 5/18/2026 ===
+[/nba/game/_/gameId/401873197/spurs-thunder]
+San Antonio Spurs                +215      37.2%     +17.2 PICK WON +$215.00
+Oklahoma City Thunder            -265      62.8%          -13.5
+
+
+=== 5/17/2026 ===
+[/nba/game/_/gameId/401871339/cavaliers-pistons]
+Cleveland Cavaliers              +150      29.4%          -26.5
+Detroit Pistons                  -180      70.6%           +9.8
+
+
+=== 5/15/2026 ===
+[/nba/game/_/gameId/401871157/spurs-timberwolves]
+San Antonio Spurs                -192      63.8%           -3.0
+Minnesota Timberwolves           +160      36.2%           -5.9
+
+[/nba/game/_/gameId/401871338/pistons-cavaliers]
+Detroit Pistons                  +145      53.4%          +30.8
+Cleveland Cavaliers              -175      46.6%          -26.8
+
+
+=== 5/13/2026 ===
+[/nba/game/_/gameId/401871337/cavaliers-pistons]
+Cleveland Cavaliers              +142      29.9%          -27.6
+Detroit Pistons                  -170      70.1%          +11.3
+
+
+=== 5/12/2026 ===
+[/nba/game/_/gameId/401871156/timberwolves-spurs]
+Minnesota Timberwolves           +320      22.9%           -3.8
+San Antonio Spurs                -410      77.1%           -4.1
+
+
+=== 5/11/2026 ===
+[/nba/game/_/gameId/401871336/pistons-cavaliers]
+Detroit Pistons                  +136      55.9%          +31.9
+Cleveland Cavaliers              -162      44.1%          -28.7
+
+[/nba/game/_/gameId/401871329/thunder-lakers]
+Oklahoma City Thunder            -500      68.6%          -17.7
+Los Angeles Lakers               +380      31.4%          +50.7
+
+
+=== 5/10/2026 ===
+[/nba/game/_/gameId/401871162/knicks-76ers]
+New York Knicks                  -115      65.5%          +22.5
+Philadelphia 76ers               -105      34.5%          -32.6
+
+[/nba/game/_/gameId/401871155/spurs-timberwolves]
+San Antonio Spurs                -192      63.1%           -4.0
+Minnesota Timberwolves           +160      36.9%           -4.1
+
+
+=== 5/9/2026 ===
+[/nba/game/_/gameId/401871335/pistons-cavaliers]
+Detroit Pistons                  +150      56.1%          +40.2
+Cleveland Cavaliers              -180      43.9%          -31.7
+
+[/nba/game/_/gameId/401871328/thunder-lakers]
+Oklahoma City Thunder            -375      67.0%          -15.1
+Los Angeles Lakers               +295      33.0%          +30.4
+
+
+=== 5/8/2026 ===
+[/nba/game/_/gameId/401871161/knicks-76ers]
+New York Knicks                  -110      66.0%          +26.0
+Philadelphia 76ers               -110      34.0%          -35.1
+
+[/nba/game/_/gameId/401871154/spurs-timberwolves]
+San Antonio Spurs                -162      61.1%           -1.2
+Minnesota Timberwolves           +136      38.9%           -8.2
+
+
+=== 5/7/2026 ===
+[/nba/game/_/gameId/401871334/cavaliers-pistons]
+Cleveland Cavaliers        u215.5-110      28.2%              -
+Detroit Pistons                     -      71.8%              -
+
+[/nba/game/_/gameId/401871327/lakers-thunder]
+Los Angeles Lakers               +600      20.2%          +41.4
+Oklahoma City Thunder            -900      79.8%          -11.3
+
+
+=== 5/6/2026 ===
+[/nba/game/_/gameId/401871160/76ers-knicks]
+Philadelphia 76ers               +220      21.0%          -32.8
+New York Knicks                  -270      79.0%           +8.3
+
+[/nba/game/_/gameId/401871153/timberwolves-spurs]
+Minnesota Timberwolves           +310      24.0%           -1.6
+San Antonio Spurs                -395      76.0%           -4.8
+
+
+=== 5/5/2026 ===
+[/nba/game/_/gameId/401871333/cavaliers-pistons]
+Cleveland Cavaliers              +130          -              -
+Detroit Pistons                  -155          -              -
+
+[/nba/game/_/gameId/401871326/lakers-thunder]
+Los Angeles Lakers               +750      20.5%          +74.2
+Oklahoma City Thunder           -1200      79.5%          -13.9
+
+
+=== 5/4/2026 ===
+[/nba/game/_/gameId/401871159/76ers-knicks]
+Philadelphia 76ers               +235      22.5%          -24.6
+New York Knicks                  -290      77.5%           +4.2
+
+
+=== 5/2/2026 ===
+[/nba/game/_/gameId/401869412/76ers-celtics]
+Philadelphia 76ers               +235      25.4%          -14.9
+Boston Celtics                   -290      74.6%           +0.3
+
+
+=== 5/1/2026 ===
+[/nba/game/_/gameId/401869417/pistons-magic]
+Detroit Pistons                  -162      64.7%           +4.6
+Orlando Magic                    +136      35.3%          -16.7
+
+[/nba/game/_/gameId/401869381/cavaliers-raptors]
+Cleveland Cavaliers              -180      43.4%          -32.5
+Toronto Raptors                  +150      56.6%          +41.5
+
+[/nba/game/_/gameId/401869409/lakers-rockets]
+Los Angeles Lakers               +150      35.8%          -10.5
+Houston Rockets                  -180      64.2%           -0.1
+
+
+=== 4/30/2026 ===
+[/nba/game/_/gameId/401869393/knicks-hawks]
+New York Knicks                  -122      57.9%           +5.4
+Atlanta Hawks                    +102      42.1%          -15.0
+
+[/nba/game/_/gameId/401869410/celtics-76ers]
+Boston Celtics                   -218      61.4%          -10.4
+Philadelphia 76ers               +180      38.6%           +8.1
+
+[/nba/game/_/gameId/401869402/nuggets-timberwolves]
+Denver Nuggets                   -225      49.9%          -27.9
+Minnesota Timberwolves           +185      50.1%          +42.8
+
+
+=== 4/29/2026 ===
+[/nba/game/_/gameId/401869416/magic-pistons]
+Orlando Magic                    +320      20.6%          -13.5
+Detroit Pistons                  -410      79.4%           -1.2
+
+[/nba/game/_/gameId/401869380/raptors-cavaliers]
+Toronto Raptors                  +295      38.6%          +52.5
+Cleveland Cavaliers              -375      61.4%          -22.2
+
+[/nba/game/_/gameId/401869407/rockets-lakers]
+Houston Rockets                  +150      49.5%          +23.8
+Los Angeles Lakers               -180      50.5%          -21.4
+
+
+=== 4/26/2026 ===
+[/nba/game/_/gameId/401869377/cavaliers-raptors]
+Cleveland Cavaliers              -155      43.0%          -29.3
+Toronto Raptors                  +130      57.0%          +31.1
+
+
+=== 4/25/2026 ===
+[/nba/game/_/gameId/401869414/pistons-magic]
+Detroit Pistons                  -142      60.9%           +3.8
+Orlando Magic                    +120      39.1%          -14.0
+
+[/nba/game/_/gameId/401869370/thunder-suns]
+Oklahoma City Thunder            -470      71.9%          -12.8
+Phoenix Suns                     +360      28.1%          +29.3
+
+[/nba/game/_/gameId/401869391/knicks-hawks]
+New York Knicks                  -135      54.3%           -5.5
+Atlanta Hawks                    +114      45.7%           -2.2
+
+[/nba/game/_/gameId/401869399/nuggets-timberwolves]
+Denver Nuggets                   -135      49.9%          -13.1
+Minnesota Timberwolves           +114      50.1%           +7.2
+
+
+=== 4/24/2026 ===
+[/nba/game/_/gameId/401869404/celtics-76ers]
+Boston Celtics                   -305      62.9%          -16.5
+Philadelphia 76ers               +245      37.1%          +28.0
+
+[/nba/game/_/gameId/401869400/lakers-rockets]
+Los Angeles Lakers               +310      34.0%          +39.4
+Houston Rockets                  -395      66.0%          -17.3
+
+[/nba/game/_/gameId/401869382/spurs-trail-blazers]
+San Antonio Spurs                -118      67.1%          +24.0
+Portland Trail BlazersTrai       -102      32.9%          -34.8
+
 
 === 4/23/2026 ===
 [/nba/game/_/gameId/401869389/knicks-hawks]
@@ -809,3 +1083,9 @@ Cleveland Cavaliers            -480     75.8%          -6.7
 [/nba/game/_/gameId/401810787/heat-knicks]
 Miami Heat                     +210     38.5%          -3.2
 New York Knicks                -260     61.5%          +9.8
+
+
+===  ===
+[/nba/game/_/gameId/401871152/timberwolves-spurs]
+Minnesota Timberwolves           +650      23.0%          +72.5
+San Antonio Spurs               -1000      77.0%          -15.3
